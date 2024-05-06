@@ -23,7 +23,7 @@ y_width = 400
 cropped_image = ImageCrop.crop_image(image, x_origin, y_origin, x_width, y_width)
 
 # Apply Gaussian blur to reduce noise
-blurred_image = cv2.GaussianBlur(cropped_image, (7, 7), 0)
+blurred_image = cv2.GaussianBlur(cropped_image, (5, 7), 0)
 
 maxval = 255
 # Finding most abundant colour in image as startpoint for thresholding

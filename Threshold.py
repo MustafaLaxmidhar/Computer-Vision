@@ -14,7 +14,6 @@ def find_threshold (image, num_pixels, start_threshold):
 
         # Count the number of black pixels
         black_pixel_count = 120000 - cv2.countNonZero(output)
-        print("Number of black pixels: " + str(black_pixel_count))
 
         # Increment threshold value
         if black_pixel_count < num_pixels:
