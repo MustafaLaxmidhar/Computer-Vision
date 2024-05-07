@@ -1,48 +1,40 @@
 import cv2
 import numpy as np
 import os
-import FindColor 
+import ColourProcessing 
 import ImageCrop
 import Threshold
+import EdgeDetection
+from matplotlib import pyplot as plt
 
 #pathfile for image 
 # Define the path to the image and the subfolder
 parentfolder = "WeldGapImages"
-subfolder = "Set 1"
-image_name = "image0001.jpg"  # or whatever the image file name is
+subfolder = "Set 3"
+image_name = "image0300.jpg"  # or whatever the image file name is
 src = os.path.join(parentfolder, subfolder, image_name)
 
 # opens image in grayscale
 image = cv2.imread(src, cv2.IMREAD_GRAYSCALE)
 
 # crop image
-x_origin = 800
+x_origin = 0
 y_origin = 0
-x_width = 300
+x_width = len(image[1,:])
 y_width = 400
 cropped_image = ImageCrop.crop_image(image, x_origin, y_origin, x_width, y_width)
+cv2.imshow("cropped image", cropped_image)
+
+#increase Contrast of image
+contrasted_image = ColourProcessing.increase_contrast(cropped_image)
+cv2.imshow("contrasted image", contrasted_image)
+
 
 # Apply Gaussian blur to reduce noise
-blurred_image = cv2.GaussianBlur(cropped_image, (5, 7), 0)
+blurred_image = cv2.GaussianBlur(contrasted_image, (5, 7), 0)
 
-maxval = 255
-# Finding most abundant colour in image as startpoint for thresholding
-thresh = FindColor.most_abundant_colour(blurred_image)
-print(thresh)
-retval, start = cv2.threshold(blurred_image, thresh, maxval, cv2.THRESH_BINARY)
-cv2.imshow("threshold start", start)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
-
-
-#increases threshold until number of black pixels is reached
-weldgap_area = 4341             #obtained by width of weld gap x height of cropped image
-threshold = Threshold.find_threshold(blurred_image, 3300, thresh)
-
-
-# use highpass filter to isolate line
-retval, output = cv2.threshold(blurred_image, threshold, maxval, cv2.THRESH_BINARY)
-cv2.imshow("threshold test", output)
+edges = EdgeDetection.find_edges(blurred_image)
+cv2.imshow("edged image", edges)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
 
