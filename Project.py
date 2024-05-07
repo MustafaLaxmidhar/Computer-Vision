@@ -1,6 +1,6 @@
 import cv2
 import numpy
-img = cv2.imread("WeldGapImages/Set 1/image0003.jpg")
+img = cv2.imread("WeldGapImages/Set 3/image0300.jpg")
 
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 

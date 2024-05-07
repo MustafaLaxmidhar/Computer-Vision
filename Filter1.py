@@ -10,8 +10,8 @@ from matplotlib import pyplot as plt
 #pathfile for image 
 # Define the path to the image and the subfolder
 parentfolder = "WeldGapImages"
-subfolder = "Set 3"
-image_name = "image0300.jpg"  # or whatever the image file name is
+subfolder = "Set 1"
+image_name = "image0001.jpg"  # or whatever the image file name is
 src = os.path.join(parentfolder, subfolder, image_name)
 
 # opens image in grayscale
