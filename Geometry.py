@@ -8,7 +8,6 @@ def find_weldgap_width(image):
     for i in range(140):
         #if the width exceeds max, decrease threshold
         width = count_consecutive_black_pixels_in_row(image, i)
-        if width 
 
 def count_consecutive_black_pixels_in_row(image, row_index):
     # Get the number of columns (width) in the image
