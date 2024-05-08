@@ -8,8 +8,8 @@ import Threshold
 #pathfile for image 
 # Define the path to the image and the subfolder
 parentfolder = "WeldGapImages"
-subfolder = "Set 2"
-image_name = "image0200.jpg"  # or whatever the image file name is
+subfolder = "Set 3"
+image_name = "image0300.jpg"  # or whatever the image file name is
 src = os.path.join(parentfolder, subfolder, image_name)
 
 # opens image in grayscale
