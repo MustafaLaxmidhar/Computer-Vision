@@ -24,9 +24,11 @@ def iterate_files(folder_path, csv_writer):
             print("File:", file_name)
             file_path = str(file)
             # This gets the Set that it is currently in
-            set = file_path[13:16]
+            parent_folder = file_path[:12]
+            sub_folder = file_path[13:16]
+            image_name = file_path[17:]
             with open(file, 'r') as file:
-                # Call the filter function here
+                # Call the filter function here wit the three inputs parent_folder, sub folder and image name 
                 csv_result, processed_image = Filter2.process_image(file_path) 
                 # Conditional statements to check the CSV Saves
                 # Checks if its the start of the set and can save it directly and start checking
@@ -42,13 +44,12 @@ def iterate_files(folder_path, csv_writer):
                         cv2.imwrite(output, processed_image)
                     # saves as previous 
                         prev_csv_result = csv_result
-                    prev_set = set
+                    prev_sub_folder = sub_folder
                     start = 0
                 # Checks if the set is the same as the previous set
-                elif set == prev_set:
-                    # Checks weldgap if it is 1mm, values might need to be changed depending on 
-                    # Pixel to mm 
-                    if csv_result <= 4 + prev_csv_result or csv_result >= 4 + prev_csv_result:
+                elif sub_folder == prev_sub_folder:
+                    # Checks weldgap if it is 1mm, 
+                    if csv_result <= 22 + prev_csv_result or csv_result >= 22 + prev_csv_result:
                         csv_writer.writerow([file, csv_result, "1"]) 
                         output = os.path.join(processed_folder, file_name)
                         cv2.imwrite(output, processed_image)
@@ -61,7 +62,7 @@ def iterate_files(folder_path, csv_writer):
                         cv2.imwrite(output, processed_image)
                         # if it is not valid it does not save as previous, IDK if it should save it 
                         # seems more resonable to not save it if it is not valid
-                    prev_set = set
+                    prev_sub_folder = sub_folder
                 # This is for when a new set happens 
                 else:
                     # checks if the first image in a new set is valid or not 
@@ -74,7 +75,7 @@ def iterate_files(folder_path, csv_writer):
                         output = os.path.join(processed_folder, file_name)
                         cv2.imwrite(output, processed_image)
                         prev_csv_result = csv_result
-                    prev_set = set
+                    prev_sub_folder = sub_folder
 # Opens csv file to write in
 with open(results_csv_file, 'w', newline='') as csvfile:
     csv_writer = csv.writer(csvfile)
