@@ -15,7 +15,7 @@ def find_edges(image):
     # Convert the image to grayscale
     
     # Apply Canny edge detection
-    edges = cv2.Canny(image, 120, 135)  # Adjust threshold values as needed
+    edges = cv2.Canny(image, 130, 155)  # Adjust threshold values as needed
     
     return edges
 
