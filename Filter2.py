@@ -8,12 +8,12 @@ import CountPixels
 import EdgeDetection
 from matplotlib import pyplot as plt
 
-def process_image(parentfolder, subfolder, image_name):
+def process_image(files):
     # Define the path to the image
-    src = os.path.join(parentfolder, subfolder, image_name)
+   #src = cv2.imread(files)
 
     # Opens image in grayscale
-    image = cv2.imread(src, cv2.IMREAD_GRAYSCALE)
+    image = cv2.imread(files, cv2.IMREAD_GRAYSCALE)
 
     # Crop image
     x_origin = 0
@@ -33,8 +33,9 @@ def process_image(parentfolder, subfolder, image_name):
     # Find edges
     _, thresholded_image = cv2.threshold(blurred_image, 120, 255, cv2.THRESH_BINARY)
     edges = EdgeDetection.find_edges(thresholded_image)
-    pixel = CountPixels.count_pixels(edges)
+    pixel, pixel_count = CountPixels.count_pixels(edges)
     #cv2.imshow("edged image", edges)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
+    return pixel_count, pixel
 

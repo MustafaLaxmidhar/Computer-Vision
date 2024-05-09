@@ -1,7 +1,7 @@
 import os
-#import cv2
+import cv2
 import numpy as np
-# import Filter1
+import Filter2
 import csv
 # Sets the main folder to run throught
 main_folder = "WeldGapImages"
@@ -19,19 +19,21 @@ def iterate_files(folder_path, csv_writer):
         for file_name in files:
             processed_file_path = os.path.join(processed_folder, file_name)
             file = os.path.join(root, file_name)
-            print("File:", file)
+            print("File:", file_name)
+            file_path = str(file)
             with open(file, 'r') as file:
                 # Call the filter function here
-                csv_result, processed_image = filter1. 
+                csv_result, processed_image = Filter2.process_image(file_path) 
                 # Writes the results into a csv file
-                csv_writer.writerow([file, results]) 
-                processed_image.save(processed_file_path)
+                csv_writer.writerow([file, csv_result]) 
+                output = os.path.join(processed_folder, file_name)
+                cv2.imwrite(output, processed_image)
 
 # Opens csv file to write in
 with open(results_csv_file, 'w', newline='') as csvfile:
     csv_writer = csv.writer(csvfile)
 
-    csv_writer.writerow(['file', 'result'])
+    csv_writer.writerow(['file', 'WeldGapPositions'])
 
     iterate_files(main_folder, csv_writer)
 
