@@ -6,7 +6,7 @@ def find_threshold (image, num_pixels, start_threshold):
     black_pixel_count = 0
     threshold = start_threshold
 
-    while (abs(black_pixel_count - num_pixels) > 50):
+    while (abs(black_pixel_count - num_pixels) > 300):
     
         # Apply thresholding
         maxval = 255 

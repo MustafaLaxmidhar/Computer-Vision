@@ -1,5 +1,7 @@
 import cv2
-import os
+import numpy as np
+import matplotlib.pyplot as plt
+
 
 def find_vertical_lines(image):
     
@@ -18,4 +20,3 @@ def find_edges(image):
     edges = cv2.Canny(image, 120, 135)  # Adjust threshold values as needed
     
     return edges
-

@@ -17,6 +17,9 @@ src = os.path.join(parentfolder, subfolder, image_name)
 # opens image in grayscale
 image = cv2.imread(src, cv2.IMREAD_GRAYSCALE)
 
+EdgeDetection.apply_dft_and_display_heatmap(image)
+
+
 # crop image
 x_origin = 0
 y_origin = 0

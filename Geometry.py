@@ -1,36 +1,40 @@
 import cv2
+import np
 
-def find_weldgap_width(image):
-
-    #checks the maximum width of the weldgap
-    #adjusts the threshold accordingly
-
-    for i in range(140):
-        #if the width exceeds max, decrease threshold
-        width = count_consecutive_black_pixels_in_row(image, i)
-
-def count_consecutive_black_pixels_in_row(image, row_index):
-    # Get the number of columns (width) in the image
-    num_columns = image.shape[1]
+def find_weldgap_positions(image):
     
-    # Initialize a counter for consecutive black pixels
-    consecutive_black_pixel_count = 0
-    max_consecutive_black_pixel_count = 0
+    # Get the height of the image
+    height = image.shape[0]
     
-    # Iterate over each column in the specified row
-    for col_index in range(num_columns):
-        # Get the intensity value of the pixel at (row_index, col_index)
-        pixel_intensity = image[row_index, col_index]
+    # Initialize an array to store weld gap positions
+    weldgap_positions = []
+    
+    # Iterate through each row of the image
+    for y in range(height):
+        row = image[y, :]  # Get the row of pixels
         
-        # Check if the pixel is black (intensity = 0)
-        if pixel_intensity == 0:
-            consecutive_black_pixel_count += 1
+        # Check if there are any black pixels (pixel value = 0) in the row
+        if np.any(row == 0):
+            # Find the indices of the first and last black pixel in the row
+            first_black_pixel = np.argmax(row == 0)
+            last_black_pixel = len(row) - np.argmax(row[::-1] == 0) - 1
+
+            # Calculate the average position of the weld gap
+            avg_position = (first_black_pixel + last_black_pixel) / 2
         else:
-            # Reset the consecutive count if a non-black pixel is encountered
-            max_consecutive_black_pixel_count = max(max_consecutive_black_pixel_count, consecutive_black_pixel_count)
-            consecutive_black_pixel_count = 0
+            # If there are no black pixels in the row, set avg_position to -1
+            avg_position = -1
+        
+        # Append the average position to the weldgap_positions array
+        weldgap_positions.append(avg_position)
     
-    # Check if the last sequence of black pixels extends to the end of the row
-    max_consecutive_black_pixel_count = max(max_consecutive_black_pixel_count, consecutive_black_pixel_count)
+    return weldgap_positions
+
+def line_of_best_fit(weldgap_positions, y):
+    # Perform linear regression using numpy's polyfit function
+    coefficients = np.polyfit(weldgap_positions, y, 1)
     
-    return max_consecutive_black_pixel_count
+    # Get the slope and intercept of the line
+    slope, intercept = coefficients
+    
+    return slope, intercept
