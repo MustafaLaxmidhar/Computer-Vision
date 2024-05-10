@@ -61,6 +61,9 @@ def image_processing(image_path):
     # Apply variable threshold function
     final_threshold = Threshold.find_threshold(cropped_image, 2000, 100)
     ret, final_image = cv2.threshold(cropped_image, final_threshold, 255, cv2.THRESH_BINARY)
+    cv2.imshow("final_image", cropped_image)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
     return final_image
 

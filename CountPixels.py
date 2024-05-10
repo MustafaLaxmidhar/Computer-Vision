@@ -1,19 +1,32 @@
 import cv2
 import numpy as np
 
-black_pixel_counts = []  # List to store the counts of white pixels in each column
+black_pixel_counts = []  # List to store the counts of black pixels in each column
 
 def count_pixels(image):
+    cv2.imshow("green dot image", image)
 
     for j in range(image.shape[1]):  # Iterate over each column
         black_pixel_count = 0  # Initialize count for the current column
     
         for i in range(image.shape[0]):  # Iterate over each row in the current column
-            if image[i, j] ==  0:  # Check if the pixel is BLACK
+            if image[i, j] < 60:  # Check if the pixel is BLACK
+                print(image[i, j])
                 black_pixel_count += 1  # Increment count if the pixel is BLACK
             
         black_pixel_counts.append(black_pixel_count)  # Add the count for the current column to the list
 
+    # print("Black Pixel Counts:")
+    # for count in black_pixel_counts:
+    #     print(count)  # Print each count separated by a space
+    # print()  # Print a new line after printing the entire array
+
+    
+
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+    
     return black_pixel_counts
 
 def draw_highest_pixel(image, pixel_counts):
