@@ -1,4 +1,3 @@
-import Filter2
 import CountPixels
 import time
 import cv2
