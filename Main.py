@@ -1,7 +1,7 @@
 import os
 import cv2
 import numpy as np
-import Filter2
+import timefunc
 import csv
 # Sets the main folder to run throught
 main_folder = "WeldGapImages"
@@ -21,15 +21,15 @@ def iterate_files(folder_path, csv_writer):
         for file_name in files:
             processed_file_path = os.path.join(processed_folder, file_name)
             file = os.path.join(root, file_name)
-            print("File:", file_name)
             file_path = str(file)
             # This gets the Set that it is currently in
-            parent_folder = file_path[:12]
-            sub_folder = file_path[13:16]
-            image_name = file_path[17:]
+            parent_folder = file_path[:13]
+            sub_folder = file_path[14:19]
+            image_name = file_path[20:]
+            print("File:", image_name)
             with open(file, 'r') as file:
                 # Call the filter function here wit the three inputs parent_folder, sub folder and image name 
-                csv_result, processed_image = Filter2.process_image(file_path) 
+                csv_result, processed_image = timefunc.process_image(parent_folder, sub_folder, image_name) 
                 # Conditional statements to check the CSV Saves
                 # Checks if its the start of the set and can save it directly and start checking
                 if start == 1:
