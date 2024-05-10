@@ -53,7 +53,7 @@ def image_processing(image_path):
     # crop image
     x_origin = 0
     y_origin = 0
-    x_width = len(image[1,:])
+    x_width = len(image[1,:]) - 20
     y_width = 140   
     cropped_image = ImageCrop.crop_image(blf_image, x_origin, y_origin, x_width, y_width)
 
