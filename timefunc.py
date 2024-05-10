@@ -1,3 +1,4 @@
+import Filter2
 import CountPixels
 import time
 import cv2
@@ -17,7 +18,7 @@ def process_image(parentfolder, subfolder, image_name):
     # Call the process_image function from the image_processing module
     start_time = time.time()
     # Filter2.process_image(parentfolder, subfolder, image_name)
-    image = MusMethod.image_processing(src)
+    image, blf_image = MusMethod.image_processing(src)
     weldgap_positions = CountPixels.find_consecutive_black_pixels(image, 5)
     weldgap_drawing = CountPixels.draw_shapes(src, weldgap_positions)
     weldgap = CountPixels.find_most_coordinates_range(weldgap_positions, weldgap_drawing.shape[1], 10)
@@ -37,4 +38,4 @@ def process_image(parentfolder, subfolder, image_name):
                                 
     execution_time = end_time - start_time
     print("Execution time:", execution_time, "seconds")
-    return x, weldgap_drawing
+    return x, weldgap_drawing, image, blf_image

@@ -65,6 +65,6 @@ def image_processing(image_path):
    # cv2.waitKey(0)
    # cv2.destroyAllWindows()
 
-    return final_image
+    return final_image, blf_image
 
 
