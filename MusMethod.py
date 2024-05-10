@@ -18,8 +18,15 @@ def image_processing(image_path):
     # opens image in grayscale
     image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
 
+    # crop image
+    x_origin = 0
+    y_origin = 0
+    x_width = len(image[1,:]) - 20
+    y_width = 140   
+    cropped_image = ImageCrop.crop_image(image, x_origin, y_origin, x_width, y_width)
+
     #increase Contrast of image
-    contrasted_image = ColourProcessing.increase_contrast(image)
+    contrasted_image = ColourProcessing.increase_contrast(cropped_image)
 
     # Apply a gaussian filter
     gaussian_image = cv2.GaussianBlur(contrasted_image, (5, 5), 0)
@@ -45,26 +52,10 @@ def image_processing(image_path):
     # Apply a bilateral filter
     blf_image = cv2.bilateralFilter(fft_real_uint8, d = 5, sigmaColor = 75, sigmaSpace = 75)
 
-
-    # Apply a threshold on the most common colour in the image
-    histogram = ColourProcessing.normalise_histogram(blf_image)
-    intial_threshold = ColourProcessing.most_abundant_colour(histogram)
-
-    # crop image
-    x_origin = 0
-    y_origin = 0
-    x_width = len(image[1,:]) - 20
-    y_width = 140   
-    cropped_image = ImageCrop.crop_image(blf_image, x_origin, y_origin, x_width, y_width)
-
-
     # Apply variable threshold function
-    final_threshold = Threshold.find_threshold(cropped_image, 2000, 100)
-    ret, final_image = cv2.threshold(cropped_image, final_threshold, 255, cv2.THRESH_BINARY)
-   # cv2.imshow("final_image", cropped_image)
-   # cv2.waitKey(0)
-   # cv2.destroyAllWindows()
+    final_threshold = Threshold.find_threshold(blf_image, 2000, 100)
+    ret, final_image = cv2.threshold(blf_image, final_threshold, 255, cv2.THRESH_BINARY)
 
-    return final_image, blf_image
+    return final_image
 
 
